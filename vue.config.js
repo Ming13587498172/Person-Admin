@@ -36,6 +36,19 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // 反向代理
+    proxy: {
+      'abc': {
+        // 只要是 axios 发送请求的时候，前面是以 /abc 开头的，就会被这块匹配到，就会自动帮我们做反向代理
+        target: 'http://ihrm.itheima.net/',
+        changeOrigin: true,
+        pathRewrite: {
+          // 相当于是在做 replace替换 操作
+          // 为什么要写 ^ ?  -----> 因为不写的话，api接口的url中间万一有abc也会被替换成 ''
+          '^/abc': ''
+        }
+      }
+    }
     // 因为我们真正的项目有自己的接口服务器，不用模拟数据，所以这一行没有用
     // before: require('./mock/mock-server.js')
   },
